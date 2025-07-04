@@ -258,7 +258,7 @@ app.put('/api/user/:id', async (req, res) => {
 
 
 
-
+const PORT = process.env.PORT || 3000;
 app.listen(process.env.PORT,'0.0.0.0',() => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
