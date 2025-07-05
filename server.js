@@ -161,8 +161,8 @@ app.post('/upload', upload.single('image'), (req, res) => {
   }
 
   console.log('✅ File received:', req.file);
-
-  const fileUrl = `http://192.168.1.13:3000/uploads/${req.file.filename}`;
+  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  // const fileUrl = `http://192.168.1.13:3000/uploads/${req.file.filename}`;
 
   res.json({
     message: 'Image uploaded successfully',
@@ -182,12 +182,13 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
 // 📸 List all uploaded image files
 app.get('/photos', (req, res) => {
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
   fs.readdir('uploads', (err, files) => {
     if (err) return res.status(500).json({ error: 'Failed to read uploads folder' });
 
     const imageUrls = files.map(file => ({
       filename: file,
-      url: `http://192.168.1.13:3000/uploads/${file}`,
+      url:  `${baseUrl}/uploads/${file}`,
     }));
 
     res.json(imageUrls);
